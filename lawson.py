@@ -3,10 +3,12 @@ import re
 
 import cv2
 import firebase_admin
+import pykakasi
 import requests
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, storage
 
+kks = pykakasi.kakasi()
 
 def main():
     JSON_PATH="caloriereceipt-firebase-adminsdk-c6qz7-9a21a73fbe.json"
@@ -50,6 +52,11 @@ def main():
                 img=main_url+product.a.img.attrs["src"]
                 calorie=int(calorie)
                 wordArray=list(name)
+                result = kks.convert(name)
+                kana=""
+                for w in result:
+                    kana+=w["kana"]
+                wordArray+=kana
                 wordsMap={}
                 for w in wordArray:
                     wordsMap[w]=True
@@ -141,6 +148,15 @@ kana={
     "ぶ":"ふ",
     "べ":"へ",
     "ぼ":"ほ",
+    "1":"１",
+    "2":"２",
+    "3":"３",
+    "4":"４",
+    "5":"５",
+    "6":"６",
+    "7":"７",
+    "8":"８",
+    "9":"９",
     "(":"（",
     ")":"）",
     "（":"(",

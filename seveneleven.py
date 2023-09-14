@@ -5,10 +5,12 @@ import os
 import re
 
 import firebase_admin
+import pykakasi
 import requests
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, storage
 
+kks = pykakasi.kakasi()
 
 # HTMLの取得先として当サイトを指定する
 def main():
@@ -52,7 +54,12 @@ def main():
                 
                 print(name)
                 wordArray=list(name)
-                wordsMap={}
+                result = kks.convert(name)
+                kana=""
+                for w in result:
+                    kana+=w["kana"]
+                wordArray+=kana
+                wordsMap={"P":True}
                 for w in wordArray:
                     wordsMap[w]=True
                     wordsMap[w.translate(table)]=True
@@ -177,7 +184,20 @@ kana={
     "び":"ひ",
     "ぶ":"ふ",
     "べ":"へ",
-    "ぼ":"ほ"
+    "ぼ":"ほ",
+    "1":"１",
+    "2":"２",
+    "3":"３",
+    "4":"４",
+    "5":"５",
+    "6":"６",
+    "7":"７",
+    "8":"８",
+    "9":"９",
+    "(":"（",
+    ")":"）",
+    "（":"(",
+    "）":")",
 }
 table=str.maketrans(kana)
 

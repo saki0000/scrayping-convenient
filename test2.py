@@ -1,6 +1,14 @@
 import re
 
-calorie="220kcal"
+import pykakasi
 
-test=re.search(r'当り(.+)kcal',calorie).group(1)
-print(test)
+kks = pykakasi.kakasi()
+
+calorie="220kcal"
+name="ロッテ　雪見だいふく　コクのショコラ"
+
+result = kks.convert(name)
+words=""
+for w in result:
+    words+=w["kana"]
+print(words)
